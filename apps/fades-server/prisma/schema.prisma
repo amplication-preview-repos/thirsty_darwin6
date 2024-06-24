@@ -1,0 +1,56 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Programmes {
+  createdAt   DateTime  @default(now())
+  description String?
+  heureDeDBut DateTime?
+  heureDeFin  DateTime?
+  id          String    @id @default(cuid())
+  titre       String?
+  updatedAt   DateTime  @updatedAt
+}
+
+model ActualitS {
+  contenu           String?
+  createdAt         DateTime  @default(now())
+  dateDePublication DateTime?
+  id                String    @id @default(cuid())
+  titre             String?
+  updatedAt         DateTime  @updatedAt
+}
+
+model Animateurs {
+  biographie String?
+  createdAt  DateTime @default(now())
+  email      String?
+  id         String   @id @default(cuid())
+  nom        String?
+  updatedAt  DateTime @updatedAt
+}
+
+model Pisodes {
+  createdAt         DateTime       @default(now())
+  dateDeDiffusion   DateTime?
+  id                String         @id @default(cuid())
+  rediffusionsItems Rediffusions[]
+  rSum              String?
+  titre             String?
+  updatedAt         DateTime       @updatedAt
+}
+
+model Rediffusions {
+  createdAt         DateTime  @default(now())
+  dateDeRediffusion DateTime?
+  id                String    @id @default(cuid())
+  pisode            Pisodes?  @relation(fields: [pisodeId], references: [id])
+  pisodeId          String?
+  titre             String?
+  updatedAt         DateTime  @updatedAt
+}
